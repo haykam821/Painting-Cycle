@@ -1,0 +1,22 @@
+{
+	"schemaVersion": 1,
+	"id": "paintingcycle",
+	"version": "${version}",
+	"name": "Painting Cycle",
+	"description": "Allows the player to cycle through placed paintings.",
+	"authors": [
+		"haykam821"
+	],
+	"contact": {
+		"homepage": "https://github.com/haykam821/Painting-Cycle#readme",
+		"issues": "https://github.com/haykam821/Painting-Cycle/issues"
+	},
+	"mixins": [
+		"paintingcycle.mixin.json"
+	],
+	"license": "MIT",
+	"icon": "assets/paintingcycle/icon.png",
+	"depends": {
+		"fabricloader": ">=0.4.0"
+	}
+}
