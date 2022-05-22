@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import io.github.haykam821.paintingcycle.PaintingCycle;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -25,31 +25,31 @@ import net.minecraft.util.registry.Registry;
 @Mixin(Entity.class)
 public class OldEntityMixin {
 	@Unique
-	private List<PaintingMotive> getPotentialMotives(PaintingMotive currentMotive) {
-		List<PaintingMotive> potentialMotives = Lists.newArrayList();
+	private List<PaintingVariant> getPotentialVariants(PaintingVariant currentVariant) {
+		List<PaintingVariant> potentialVariants = Lists.newArrayList();
 
-		Iterator<PaintingMotive> iterator = Registry.PAINTING_MOTIVE.iterator();
+		Iterator<PaintingVariant> iterator = Registry.PAINTING_VARIANT.iterator();
 		while (iterator.hasNext()) {
-			PaintingMotive motive = iterator.next();
+			PaintingVariant variant = iterator.next();
 
-			if (PaintingCycle.isPotentialMotive(motive, currentMotive)) {
-				potentialMotives.add(motive);
+			if (PaintingCycle.isPotentialVariant(variant, currentVariant)) {
+				potentialVariants.add(variant);
 			}
 		}
 
-		return potentialMotives;
+		return potentialVariants;
 	}
 
 	@Unique
-	private boolean changeMotive() {
+	private boolean changeVariant() {
 		OldPaintingEntityAccessor accessor = (OldPaintingEntityAccessor) (Object) this;
 
-		PaintingMotive currentMotive = accessor.getMotive();
-		List<PaintingMotive> potentialMotives = this.getPotentialMotives(currentMotive);
-		if (potentialMotives.size() <= 1) return false;
+		PaintingVariant currentVariant = accessor.getVariant();
+		List<PaintingVariant> potentialVariants = this.getPotentialVariants(currentVariant);
+		if (potentialVariants.size() <= 1) return false;
 
-		PaintingMotive newMotive = potentialMotives.get((potentialMotives.indexOf(currentMotive) + 1) % potentialMotives.size());
-		accessor.setMotive(newMotive);
+		PaintingVariant newVariant = potentialVariants.get((potentialVariants.indexOf(currentVariant) + 1) % potentialVariants.size());
+		accessor.setVariant(newVariant);
 		return true;
 	}
 
@@ -60,7 +60,7 @@ public class OldEntityMixin {
 		ItemStack handStack = player.getStackInHand(hand);
 		if (handStack.getItem() != Items.PAINTING) return;
 
-		boolean changed = this.changeMotive();
+		boolean changed = this.changeVariant();
 		ci.setReturnValue(changed ? ActionResult.SUCCESS : ActionResult.FAIL);
 	}
 }
