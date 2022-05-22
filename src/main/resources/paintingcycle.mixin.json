@@ -2,8 +2,12 @@
 	"required": true,
 	"package": "io.github.haykam821.paintingcycle.mixin",
 	"compatibilityLevel": "JAVA_8",
+	"plugin": "io.github.haykam821.paintingcycle.mixin.PaintingCycleMixinConfigPlugin",
 	"mixins": [
-		"EntityMixin"
+		"EntityMixin",
+		"OldEntityMixin",
+		"OldPaintingEntityAccessor",
+		"PaintingEntityAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1
